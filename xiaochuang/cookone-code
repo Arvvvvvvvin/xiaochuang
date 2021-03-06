@@ -7,6 +7,7 @@ getwd()
 database <- read.csv("data.csv",encoding = "UTF-8")
 print(database)
 
+
 province <- database['X.U.FEFF.s41']
 #print(province)
 newlist <- as.data.frame(table(province))
@@ -28,6 +29,10 @@ CookOnedu$efficiency = c('1'="300",'2'="400",'3'="600",'4'="850",'5'="1250",'6'=
 CookOnedu$kinds = c('1'="xinchai",'2'="jiegan",'3'="qinchu",'4'="fengwomei",'5'="youlu",'6'="diancilu",'7'="yehuaqi",'8'="tianranqi",'9'="meiqi","10"="zaoqi","11"="dianfanguo","12"="gaoyaguo","13"="weibolu","14"="kaoxiang","15"="taiyangnengzao","16"="dianshuihu")[ as.character(CookOnedu$kinds)]
 write.csv(CookOnedu, file = "CookOne.csv")
 head(CookOnedu)
+CookOnedu$frequency <- as.numeric(as.character(CookOnedu$frequency))
+CookOnedu$time <- as.numeric(as.character(CookOnedu$time))
+CookOnedu$efficiency <- as.numeric(as.character(CookOnedu$efficiency))
+CookOnedu <- mutate(CookOnedu,totaltime = frequency*time)
 # meikuan <-  database['e8902']
 # print(meikuan)
 # sum(is.na(meikuan))
