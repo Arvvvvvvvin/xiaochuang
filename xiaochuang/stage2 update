@@ -1,0 +1,30 @@
+#参考：https://blog.csdn.net/qq_31385713/article/details/104123265
+#cfa
+#install.packages("semTools")
+library(readxl)
+library(semPlot)
+library(semTools)
+setwd("C:\\Users\\Arvvvvvvvin-\\Documents\\学习\\xiaochuang")
+library(lavaan)
+data <- read_excel("result.xlsx")
+result.model <- 'quanwei =~ Q1 + Q2
+                 lifa =~ L1 + L2
+                 zhifa =~ Z1 + Z2
+                 sifa =~ SF1 + SF2 + SF3
+                 jiandu =~ J1 + J2 + J3
+                 shiyong =~ SY1 + SY2 +SY3
+                
+                 quanwei ~  lifa + zhifa + sifa 
+                 lifa ~ jiandu
+                 shiyong ~ zhifa'        #不确定是否有问题
+fit <- cfa(result.model, data = data,std.lv=T)
+summary(fit, fit.measures=TRUE)
+
+#sem
+reliability(fit)                               #AVE>0.5,alpha值>0.8,CR值>0.8,但我们的值均较小
+fitmeasures(fit,fit.measures="all",baseline.modle=null)
+                                               #CFI>0.9,RMSEA<0.08,chisqurar/df=970.702/372<3
+                                               #后两条通过，第一条不通过
+semPaths(fit,what="std", style="lisrel",nCharNodes=0,nCharEdges=0,
+         title=TRUE, layout="spring",edg.lable.cex=1,fade=FALSE) 
+
